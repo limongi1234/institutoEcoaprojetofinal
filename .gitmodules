@@ -1,0 +1,4 @@
+[submodule "Projeto final/rag-grande-desafio-grupo04-cenario01"]
+	path = Projeto final/rag-grande-desafio-grupo04-cenario01
+	url = https://github.com/Diogooliveira10/rag-grande-desafio-grupo04-cenario01.git
+	branch = main
