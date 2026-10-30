@@ -1,0 +1,79 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+
+# Variáveis de ambiente e segredos locais
+.env
+.env.*
+!.env.example
+
+# Modelos baixados por scripts/models.ps1 (reranker via cache HF; GGUF aqui)
+.models/
+
+# Artefatos da construção v7 (modo direto): promovidos só após re-auditoria
+data/v7_direto/
+data/v7_direto_atas/
+data/v7_recuperacao/
+data/v7_direto_*.log
+
+# Ferramentas de teste e análise
+.pytest_cache/
+.tmp/
+pytest-of-*/
+*.codex-backup
+.mypy_cache/
+.ruff_cache/
+
+# Metadados locais do Serena
+.serena/
+
+# Data and logs
+index/
+logs/
+data/backups/
+data/releases/
+data/backup_v6_*/
+# Snapshots locais: a v6 validada é adicionada explicitamente ao Git.
+data/embeddings/*/
+data/embeddings/query_cache.jsonl
+atas-zip/*
+!atas-zip/atas_conversacional-v6.zip
+!atas-zip/atas_conversacional-v6-md.zip
+data/raw/
+data/runs/
+data/inventory/checkpoints/
+
+# Corpus bruto e artefatos gerados (regra do desafio: data/raw nao vai para o Git)
+data/normalized/*
+data/runs/
+data/inventory/checkpoints/
+data/attempts
+data/smoke/
+data/smoke_v2/
+data/source_catalog/
+data/structured/
+data/app_state/
+tests/reports/corpus-validation-*.md
+
+# Resultados gerados pelas checagens
+data/source_catalog/runs/
+
+# Relatórios de execução do eval (golden set em si é versionado)
+eval/runs/*
+# Exceção: dados v6 de referência para regressão v7
+!eval/runs/projecao-v6-3modos-2026-10-14/
+
+# Claude
+.claude/
+
+# Configuração local do editor
+.vscode/
+
+# c�pia local do documents.jsonl do v6 usada nas medi��es (dados ficam fora do Git)
+data/v6_docs/
