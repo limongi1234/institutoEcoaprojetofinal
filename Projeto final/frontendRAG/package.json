@@ -1,0 +1,41 @@
+{
+  "name": "rag-contratacoes-rj-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:pages": "npm run build && node scripts/sync-pages.mjs",
+    "preview": "vite preview",
+    "test": "vitest run && node --test scripts/validate-pages-config.test.mjs",
+    "test:watch": "vitest",
+    "check:backend": "node scripts/check-backend.mjs",
+    "check:query": "node scripts/check-backend.mjs --query",
+    "check:pages": "node scripts/validate-pages-config.mjs",
+    "check:pages-build": "node scripts/validate-pages-config.mjs --dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "homepage": "https://etuarda.github.io/frontendRAG/",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "gh-pages": "^6.3.0",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vitest": "^3.2.7"
+  }
+}

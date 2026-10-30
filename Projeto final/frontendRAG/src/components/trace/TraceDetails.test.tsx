@@ -1,0 +1,34 @@
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import type { TraceStage } from '../../types/api';
+import { EvidenceTable, ranksBefore } from './EvidenceTable';
+import { FiltersBlock } from './FiltersBlock';
+import { ModelUsage } from './ModelUsage';
+import { StageNotes } from './StageNotes';
+const stage = (overrides: Partial<TraceStage> = {}): TraceStage => ({ ordem: 1, stage: 'retrieval_bm25', base: 'vetorial', status: 'ok', ts: '', latencia_ms: 10, input: null, output: null, tokens: null, modelo: null, detalhes: {}, ...overrides });
+describe('detalhes do trace', () => {
+  it('usa score como fallback de BM25 e deixa Densa vazia', () => { render(<EvidenceTable stage={stage({ detalhes: { evidencias: [{ chunk_id: 'c1', sparse_score: null, score: 8.33 }] } })} previousRanks={new Map()} />); expect(screen.getByText('8.33')).toBeInTheDocument(); expect(screen.getAllByText('—').length).toBeGreaterThan(0); });
+  it('interpreta filtros ignorados agrupados por base e não renderiza sem filtros', () => { const { rerender } = render(<FiltersBlock detalhes={{ filtros_ignorados: { contratos_estruturado: { nenhum_chunk_passou: ['orgao'] } } }} />); expect(screen.getByText(/Contratos — Órgão/)).toBeInTheDocument(); expect(screen.getByText(/nenhum trecho atendia/)).toBeInTheDocument(); rerender(<FiltersBlock detalhes={{}} />); expect(screen.queryByText('Filtros aplicados')).not.toBeInTheDocument(); });
+  it('mostra filtro aplicado com campo e operador amigáveis sem optional', () => { render(<FiltersBlock detalhes={{ filtros: { orgao: { operator: 'contains', value: 'Maricá', optional: true }, optional: true } }} />); expect(screen.getByText(/Órgão/).parentElement).toHaveTextContent('Órgão contém “Maricá”'); expect(screen.queryByText(/optional/)).not.toBeInTheDocument(); });
+  it('mostra todas as condições quando o backend envia lista', () => { render(<FiltersBlock detalhes={{ filtros: { data_assinatura: [{ operator: '>=', value: '2025-01-01', optional: true }, { operator: '<', value: '2026-01-01', optional: true }] } }} />); const conditions = screen.getAllByText('Data de assinatura').map((node) => node.parentElement); expect(conditions[0]).toHaveTextContent('a partir de “2025-01-01”'); expect(conditions[1]).toHaveTextContent('antes de “2026-01-01”'); });
+  it('cada rerank compara somente com a última fusão anterior', () => { const etapas = [stage({ ordem:1, stage:'fusao_rrf', detalhes:{ evidencias:[{chunk_id:'a',rank:4}] } }), stage({ordem:2,stage:'rerank'}), stage({ordem:3,stage:'fusao_rrf',detalhes:{evidencias:[{chunk_id:'a',rank:2}]}}), stage({ordem:4,stage:'rerank'})]; expect(ranksBefore(etapas, 1).get('a')).toBe(4); expect(ranksBefore(etapas, 3).get('a')).toBe(2); });
+  it('mostra candidatos, arquivo, id curto e movimento do rerank', () => { render(<EvidenceTable stage={stage({ stage:'rerank', detalhes:{ candidatos: 9, evidencias:[{chunk_id:'identificador-de-chunk-muito-grande-123456789',source_file:'contrato.pdf',rank:1,rerank_score:.9}] } })} previousRanks={new Map([['identificador-de-chunk-muito-grande-123456789',4]])} />); expect(screen.getByText('Reordenou 9 candidatos')).toBeInTheDocument(); expect(screen.getByText('contrato.pdf')).toBeInTheDocument(); expect(screen.getByText(/4º → 1º ↑ 3/)).toBeInTheDocument(); });
+  it('interpreta detalhes.llm, fallback, limite, cache e chamadas', () => { render(<ModelUsage stage={stage({ detalhes:{ llm:{provider:'openrouter',model:'modelo-x',tokens:{prompt:10,completion:2,total:12},finish_reason:'length'},query_embedding:{cache_hits:1},chamadas_modelo:[{provider:'a',model:'m1',status:'erro',error_type:'timeout'},{provider:'b',model:'m2',status:'ok',latencia_ms:20,tokens:{total:3}}] } })} />); expect(screen.getByText('Modelo: modelo-x')).toBeInTheDocument(); expect(screen.getByText('Tokens totais: 12')).toBeInTheDocument(); expect(screen.getByText('fallback OpenRouter')).toBeInTheDocument(); expect(screen.getByText(/limite de tokens/)).toBeInTheDocument(); expect(screen.getByText('Embedding reaproveitado do cache')).toBeInTheDocument(); expect(screen.getByText('Chamada 2')).toBeInTheDocument(); expect(screen.getByText('Tipo do erro: timeout')).toBeInTheDocument(); });
+  it('mostra chamadas ECOA e OpenRouter aninhadas nos diagnósticos da consulta', () => {
+    render(<ModelUsage stage={stage({ stage: 'geracao', modelo: 'openrouter-efetivo', detalhes: { llm: {
+      provider: 'openrouter', model: 'openrouter-efetivo', fallback_used: true,
+      chamadas_modelo: [
+        { provider: 'ecoa', model_requested: 'qwen-ecoa', model: 'qwen-ecoa', status: 'erro', error_type: 'TimeoutError' },
+        { provider: 'openrouter', model_requested: 'xiaomi/mimo-v2.6-flash', model: 'openrouter-efetivo', status: 'ok' },
+      ],
+    } } })} />);
+    expect(screen.getAllByText('Modelo: openrouter-efetivo')).toHaveLength(2);
+    expect(screen.getByText('Provedor: ecoa')).toBeInTheDocument();
+    expect(screen.getByText('Modelo: qwen-ecoa')).toBeInTheDocument();
+    expect(screen.getByText('Chamada 2')).toBeInTheDocument();
+    expect(screen.getByText('Tipo do erro: TimeoutError')).toBeInTheDocument();
+  });
+  it('lê reformulação de input/output reais', () => { render(<StageNotes stage={stage({ stage:'reformulacao', input:{pergunta:'E no ano seguinte?'}, output:{reescrita:'Contratos de 2026',motivo:'reescrita'}, detalhes:{turnos_no_prompt:2} })} />); expect(screen.getByText(/E no ano seguinte/)).toBeInTheDocument(); expect(screen.getByText(/Contratos de 2026/)).toBeInTheDocument(); expect(screen.getByText(/reescrita pelo modelo/)).toBeInTheDocument(); });
+  it('query analysis omite vazios e mostra preenchidos', () => { render(<StageNotes stage={stage({ stage:'query_analysis', output:{ano:2025,metrica:'soma',agrupamentos:['orgao'],periodo:null,filtros:[]} })} />); expect(screen.getByText(/Ano:/).parentElement).toHaveTextContent('2025'); expect(screen.getByText(/Métrica:/).parentElement).toHaveTextContent('soma'); expect(screen.queryByText('Período:')).not.toBeInTheDocument(); });
+  it('explica etapa pulada, degradada e validação', () => { const { rerender } = render(<StageNotes stage={stage({status:'pulado',detalhes:{motivo:'calculo_sql_suficiente'}})} />); expect(screen.getByText(/SQL respondeu sozinho/)).toBeInTheDocument(); rerender(<StageNotes stage={stage({status:'degradado',detalhes:{fallback:'busca sem filtros'}})} />); expect(screen.getByText(/Plano B/).parentElement).toHaveTextContent('busca sem filtros'); rerender(<StageNotes stage={stage({stage:'validacao',detalhes:{citacoes_descartadas:2,json_valido:false,recusa_convertida:true}})} />); expect(screen.getByText(/Citações descartadas/).parentElement).toHaveTextContent('2'); expect(screen.getByText(/formato esperado/)).toBeInTheDocument(); expect(screen.getByText(/recusa indevida/)).toBeInTheDocument(); });
+});

@@ -1,0 +1,78 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    env:
+      # URL pública pronta para a demo. Uma variável de Actions pode substituir o padrão.
+      # Settings > Secrets and variables > Actions > Variables (não Secrets).
+      # Nunca coloque credenciais em VITE_*: o valor fica público no bundle.
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://earlobe-lagged-outscore.ngrok-free.dev' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Validate backend URL
+        run: npm run check:pages
+
+      - name: Validate Pages publishing source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! build_type=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.build_type'); then
+            echo "::error::Não foi possível consultar o Pages. Habilite Settings > Pages > Build and deployment > Source > GitHub Actions."
+            exit 1
+          fi
+          if [ "$build_type" != "workflow" ]; then
+            echo "::error::O Pages está publicando pela branch ($build_type). Altere Settings > Pages > Build and deployment > Source para GitHub Actions; depois execute este workflow novamente."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Verify backend URL in production artifact
+        run: npm run check:pages-build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
