@@ -162,7 +162,6 @@ A escrita usa fila limitada e lotes, coordenados entre processos por SQLite/WAL 
 SQLite compatível, cobertura vetorial, validação e rollback.
 
 ```
-├── acompanhamento/              ← relato individual + resumo do dia, a cada encontro
 ├── docs/                         ← guia da interface CLI e capturas de tela
 ├── CORPUS_INVENTORY.md           ← inventário legível do corpus coletado
 ├── data/
@@ -900,8 +899,6 @@ dos documentos são os do índice versionado e **não** são reembedados ao troc
 de provedor; só a pergunta muda de encoder (o cache de query separa por
 endpoint e modelo, e a compatibilidade do checkpoint foi medida em
 docs/registro_execucao_v6.md).
-
-Acompanhamento detalhado dia a dia em [acompanhamento/ACOMPANHAMENTO.md](acompanhamento/ACOMPANHAMENTO.md).
 
 ---
 

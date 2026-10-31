@@ -8,8 +8,7 @@ O snapshot PNCP v6 permanece intacto; este suplemento não é uma versão v7.
 ## Proveniência e formato canônico
 
 - Autoria: base gerada pelo tutor, entregue ao grupo e integrada ao projeto por
-  João em 2026-10-05 (commits `d31925f` e `146ceea`; registro no
-  `acompanhamento/ACOMPANHAMENTO_ALUNO_JOAO_PEDRO_FELIX_REIS.md`). Os 25 JSONs não têm campo de autoria; a
+  João em 2026-10-05 (commits `d31925f` e `146ceea`). Os 25 JSONs não têm campo de autoria; a
   proveniência está registrada aqui, no manifesto e no inventário.
 - Arquivo recebido do tutor: `conversacional_sintetica.zip` (72.765 bytes).
 - SHA-256: `8dac3c770922363d677e7e19c8d6660df4dbb003dadc88af8fc314a872744625`.

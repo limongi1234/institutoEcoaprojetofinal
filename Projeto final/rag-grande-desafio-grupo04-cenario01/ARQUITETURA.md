@@ -230,7 +230,6 @@ As tarefas são distribuídas entre os integrantes a cada encontro conforme as n
 - **A cada encontro**, a equipe revisa o estado do projeto e distribui as próximas atividades.
 - **As dependências entre módulos** são consideradas para evitar trabalhos conflitantes, principalmente entre coleta, indexação, análise de consulta e avaliação.
 - **As revisões** geram novos ajustes e tarefas para os encontros seguintes.
-- **O registro individual das contribuições** fica em `acompanhamento/ACOMPANHAMENTO_*.md`.
 
 ### Frentes atuais
 

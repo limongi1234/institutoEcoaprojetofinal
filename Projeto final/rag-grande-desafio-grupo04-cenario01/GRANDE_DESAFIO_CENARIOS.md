@@ -480,9 +480,6 @@ Esse teste pega, no Sprint 1, o erro que só apareceria como "o filtro não func
 ## 2.6 Estrutura do repositório
 
 ```
-├── acompanhamento/
-│   ├──ACOMPANHAMENTO_ALUNO_NOME_01.md            ← atualizado a cada encontro
-│   ├── ACOMPANHAMENTO_ALUNO_NOME_02.md            ← atualizado a cada encontro
 ├── README.md                    ← como rodar, arquitetura, política de sensibilidade
 ├── ARQUITETURA.md               ← plano de arquitetura (entregável do Sprint 1)
 ├── PERSONAS.md                  ← personas e perguntas de referência
@@ -537,15 +534,11 @@ O último item não é retórica. Ele é reaberto nas proximas Sprints, quando v
 - As quatro bases declaradas, com natureza, fonte e tipo de acesso.
 - Não precisa estar completo em endpoints e parâmetros hoje. Precisa existir, com as quatro bases nomeadas e a seleção pensada.
 
-**5. `├──ACOMPANHAMENTO_ALUNO_NOME.md` com o bloco do dia**
-- Relato individual, em primeira pessoa, **escrito por cada integrante**.
-- Resumo do dia em conjunto: o que a equipe entregou, o que travou, qual o próximo passo.
-
 ## Horários - sem exceção
 
 | Horário | O que acontece |
 | --- | --- |
-| 17:30 – 17:40 | Parar de programar. Escrever o bloco do dia no `ACOMPANHAMENTO.md`. |
+| 17:30 – 17:40 | Parar de programar. |
 | 17:40 – 18:00 | `git add` + `commit` + `push`. Conferir no GitHub que apareceu. |
 | 18:00 | **Prazo final.** Vale o horário do *push*, não o do commit local. |
 
@@ -566,7 +559,6 @@ Permitido e esperado. Duas condições, as mesmas do Mini Desafio:
 - [ ] `ARQUITETURA.md` com pipeline, estágios nomeados e divisão de responsabilidades
 - [ ] `PERSONAS.md` com 3 personas, 9 perguntas classificadas e a pergunta que você acha que vai errar
 - [ ] `corpus_manifest.yaml` com as 4 bases declaradas
-- [ ] `ACOMPANHAMENTO_ALUNO_NOME.md` com relato individual de **cada** integrante
 - [ ] Push feito até as 18:00
 
 ---
