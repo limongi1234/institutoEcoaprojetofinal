@@ -19,7 +19,7 @@ O projeto tem **duas partes**, que aqui ficam em pastas separadas e rodam como
 
 | Parte | Pasta | Tecnologia | Onde roda |
 | --- | --- | --- | --- |
-| **Backend / RAG** | [Projeto final/rag-grande-desafio-grupo04-cenario01/](Projeto%20final/rag-grande-desafio-grupo04-cenario01/) | Python 3.12+ · FastAPI | Máquina local (porta 8080); na demo, exposta por túnel ngrok |
+| **Backend / RAG** | [Projeto final/rag-grande-desafio-grupo04-cenario01/](Projeto%20final/rag-grande-desafio-grupo04-cenario01/) | Python 3.14 · FastAPI | Máquina local (porta 8080); na demo, exposta por túnel ngrok |
 | **Frontend** | [Projeto final/frontendRAG/](Projeto%20final/frontendRAG/) | React 19 · TypeScript · Vite 6 | Local (porta 5173) ou [etuarda.github.io/frontendRAG](https://etuarda.github.io/frontendRAG/) (GitHub Pages) |
 
 O frontend usa **apenas** a API do backend. Não há respostas simuladas nem
@@ -170,7 +170,7 @@ citação. A suíte do backend tem cerca de 2.400 testes.
 
 ## Como rodar localmente
 
-**Pré-requisitos:** Git, Python 3.12+ (64 bits), Node.js LTS 22+ e cerca de 16 GB
+**Pré-requisitos:** Git, Python 3.14 (64 bits), Node.js LTS 22+ e cerca de 16 GB
 de RAM (a API ocupa de 4,5 a 6 GB). A geração e os embeddings padrão usam o
 endpoint compartilhado da turma, portanto é preciso internet.
 

@@ -15,7 +15,7 @@ não instala nem inicia o backend. O GitHub Pages também não executa o backend
 ## 1. Pré-requisitos
 
 - Git;
-- **Python 3.12 de 64 bits**, recomendado pela compatibilidade com FAISS/PyTorch;
+- **Python 3.14 de 64 bits**, recomendado pela compatibilidade com FAISS/PyTorch;
 - **Node.js LTS 22+** com npm;
 - internet para o endpoint compartilhado de geração/embeddings e, na primeira
   execução com rerank, para baixar o modelo (~470 MB).
@@ -24,7 +24,7 @@ Reserve alguns GB para o clone, ambiente Python, PyTorch e cache do modelo.
 PostgreSQL, Ollama local, GPU e Tesseract **não são necessários** para este fluxo.
 
 Confira `git --version`, `node --version` e `npm --version`. No Windows, confira
-`py -3.12 --version`; no Linux/macOS, `python3.12 --version`.
+`py -3.14 --version`; no Linux/macOS, `python3.14 --version`.
 
 Se o PowerShell bloquear `npm.ps1`, use `npm.cmd` no lugar de `npm`.
 
@@ -52,7 +52,7 @@ Os comandos usam diretamente o Python do ambiente virtual; **não é necessário
 ativá-lo nem alterar a política de execução do PowerShell**.
 
 ```powershell
-py -3.12 -m venv .venv
+py -3.14 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 Copy-Item .env.example .env
@@ -61,7 +61,7 @@ Copy-Item .env.example .env
 ### Linux/macOS
 
 ```bash
-python3.12 -m venv .venv
+python3.14 -m venv .venv
 .venv/bin/python -m pip install --upgrade pip
 .venv/bin/python -m pip install -r requirements.txt
 cp .env.example .env
@@ -229,7 +229,7 @@ o endpoint ECOA e não colocam dados simulados no build de produção.
 | Diagnóstico passa, navegador mostra CORS | Abra em `localhost:5173`; outra origem exige `CORS_ALLOW_ORIGINS` no backend e reinício. |
 | Histórico retorna 403 sobre `RAG_API_KEY` | Backend com proteção antiga ou processo sem reinício; a abertura temporária deve estar aplicada no backend. |
 | Porta 5173 ocupada | Encerre o Vite antigo; o projeto não muda silenciosamente de porta. |
-| Erro ao instalar FAISS/PyTorch | Use Python 3.12 de 64 bits; confira a mensagem de instalação e espaço em disco. |
+| Erro ao instalar FAISS/PyTorch | Use Python 3.14 de 64 bits; confira a mensagem de instalação e espaço em disco. |
 | Build/preview sem URL da API | Configure `.env.production.local`; `.env.development` só vale no desenvolvimento. |
 
 ## Site publicado

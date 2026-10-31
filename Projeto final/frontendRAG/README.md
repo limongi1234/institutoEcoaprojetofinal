@@ -14,7 +14,7 @@ cd frontendRAG
 npm ci
 ```
 
-Pré-requisitos: Git, **Node.js LTS 22+** e **Python 3.12 de 64 bits** para o backend. A geração e os embeddings padrão dependem da internet e do endpoint compartilhado da turma.
+Pré-requisitos: Git, **Node.js LTS 22+** e **Python 3.14 de 64 bits** para o backend. A geração e os embeddings padrão dependem da internet e do endpoint compartilhado da turma.
 
 1. Siga [docs/GUIA_EXECUCAO_LOCAL.md](docs/GUIA_EXECUCAO_LOCAL.md) para clonar o **backend na branch `joao-reis`**, instalar as dependências e iniciar a API em `http://localhost:8080`. O Git não inclui os arquivos grandes do corpus: instale o pacote de dados distribuído separadamente antes de iniciar a API; clonar o código não instala SQLite, documentos ou índices.
 2. Na pasta deste frontend, com o backend rodando:

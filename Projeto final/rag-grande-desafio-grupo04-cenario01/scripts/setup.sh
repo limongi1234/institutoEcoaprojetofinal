@@ -8,7 +8,9 @@ cd "$(dirname "$0")/.."
 
 if [ ! -d .venv ]; then
   echo "== Criando .venv =="
-  python3 -m venv .venv
+  # Prefere o 3.14 (mesma versão do CI); sem ele, usa o python3 do PATH.
+  PYTHON=$(command -v python3.14 || command -v python3)
+  "$PYTHON" -m venv .venv
 fi
 .venv/bin/python -m pip install --upgrade pip >/dev/null
 .venv/bin/pip install -r requirements-lock.txt

@@ -18,7 +18,7 @@ Execute as etapas na ordem apresentada.
 Instale:
 
 - Git;
-- Python 3.12 de 64 bits;
+- Python 3.14 de 64 bits;
 - Node.js LTS com npm;
 - PostgreSQL, apenas se quiser usar o banco local em vez do SQLite incluído no
   repositório.
@@ -27,12 +27,12 @@ Confirme no PowerShell:
 
 ```powershell
 git --version
-py -3.12 --version
+py -3.14 --version
 node --version
 npm.cmd --version
 ```
 
-Python 3.12 é recomendado pela compatibilidade com FAISS, PyTorch e
+Python 3.14 é recomendado pela compatibilidade com FAISS, PyTorch e
 `sentence-transformers`.
 
 ## 2. Criar uma pasta para os projetos
@@ -72,7 +72,7 @@ O resultado deve indicar `main` sincronizada e sem alterações.
 Ainda na pasta do backend:
 
 ```powershell
-py -3.12 -m venv .venv
+py -3.14 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements.txt

@@ -7,8 +7,12 @@ Set-Location (Split-Path -Parent $PSScriptRoot)
 
 if (-not (Test-Path .venv)) {
     Write-Host "== Criando .venv =="
-    py -3.12 -m venv .venv 2>$null
-    if ($LASTEXITCODE -ne 0) { python -m venv .venv }
+    # Sem o 3.14, o py escreve no stderr; com "Stop", o PowerShell 5.1 trata
+    # isso como erro fatal e o script terminaria antes de tentar o python do PATH.
+    $ErrorActionPreference = "Continue"
+    py -3.14 -m venv .venv 2>$null
+    $ErrorActionPreference = "Stop"
+    if (-not (Test-Path .venv\Scripts\python.exe)) { python -m venv .venv }
 }
 & .\.venv\Scripts\python -m pip install --upgrade pip | Out-Null
 & .\.venv\Scripts\pip install -r requirements-lock.txt
