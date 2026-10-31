@@ -1,5 +1,7 @@
 # NEXO RJ — RAG sobre Contratações Públicas do RJ
 
+[![Testes](https://github.com/limongi1234/institutoEcoaprojetofinal/actions/workflows/testes.yml/badge.svg)](https://github.com/limongi1234/institutoEcoaprojetofinal/actions/workflows/testes.yml)
+
 **Grande Desafio · Cenário 1 · Grupo 04**
 **Residência TIC em Trilhas · PUC-Rio · Instituto ECOA**
 
@@ -279,9 +281,10 @@ estiverem no ar; como o domínio é fixo, reiniciar não exige publicar o fronte
 de novo.
 
 > **Atenção:** o GitHub só executa workflows da pasta `.github/` na raiz do
-> repositório. Os workflows em `Projeto final/*/.github/workflows/` (testes do
-> backend e deploy do frontend) foram mantidos como estavam nos repositórios da
-> equipe, mas não rodam neste repositório. A demo publicada é a do repositório
+> repositório. Aqui, [.github/workflows/testes.yml](.github/workflows/testes.yml)
+> roda os testes offline do backend e do frontend a cada push. Os workflows em
+> `Projeto final/*/.github/workflows/` foram mantidos como estavam nos
+> repositórios da equipe e não rodam aqui; a demo publicada é a do repositório
 > original do frontend.
 
 ---
