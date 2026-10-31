@@ -44,8 +44,6 @@ O diagnóstico rápido não garante que o LLM esteja disponível nem testa CORS;
 | `npm run build` | Checagem de tipos e build de produção em `dist/` |
 | `npm run build:pages` | Build + cópia para `assets/` e `docs/` (GitHub Pages) |
 | `npm run preview` | Serve o build de `dist/` localmente |
-| `npm run check:backend` | Verifica o `/health` do backend configurado |
-| `npm run check:query` | Executa uma pergunta real no pipeline RAG |
 | `npm run check:pages` | Valida a URL HTTPS do backend antes da publicação |
 | `npm run check:pages-build` | Confere o index e a URL incorporada ao bundle em `dist/` |
 
@@ -53,6 +51,10 @@ Todas as chamadas usam `VITE_API_BASE_URL` e enviam `ngrok-skip-browser-warning:
 Para testar outro backend localmente, defina a variável em `.env.development.local`.
 
 ## Publicação no GitHub Pages
+
+> Neste repositório, o workflow fica em `Projeto final/frontendRAG/.github/` e o
+> GitHub não o executa, porque só lê a pasta `.github/` da raiz. A demo é
+> publicada pelo repositório original do frontend.
 
 O workflow já incorpora `https://earlobe-lagged-outscore.ngrok-free.dev` como backend
 padrão da demo. Opcionalmente, `vars.VITE_API_BASE_URL` substitui esse endereço: cadastre
@@ -68,7 +70,7 @@ Passo a passo e diagnóstico: [docs/DEPLOY_GITHUB_PAGES.md](docs/DEPLOY_GITHUB_P
 
 Para testar outra pergunta: `npm run check:backend -- --query "Sou MEI, posso participar de pregão eletrônico?"`.
 
-**Produção/Pages:** configure uma URL HTTPS pública do backend no build e libere a origem da sua fork no CORS. O GitHub Pages hospeda apenas a interface, não o Python nem o LLM. Veja [docs/FRONTEND_INTEGRATION.md](docs/FRONTEND_INTEGRATION.md).
+**Produção/Pages:** configure uma URL HTTPS pública do backend no build e libere a origem do site publicado no CORS. O GitHub Pages hospeda apenas a interface, não o Python nem o LLM. Veja [docs/FRONTEND_INTEGRATION.md](docs/FRONTEND_INTEGRATION.md).
 
 ## Stack e estrutura
 
@@ -90,4 +92,4 @@ scripts/            # Diagnóstico local e publicação
 
 Fluxo: `Página/Componente → hook → service → api.ts → FastAPI`.
 
-O contrato oficial `docs/FRONTEND_API_CONTRACT.md` é mantido no backend. Os detalhes de endpoints, estados de tela e testes estão em [docs/FRONTEND_INTEGRATION.md](docs/FRONTEND_INTEGRATION.md).
+O contrato oficial, [FRONTEND_API_CONTRACT.md](../rag-grande-desafio-grupo04-cenario01/docs/FRONTEND_API_CONTRACT.md), é mantido na pasta do backend. Os detalhes de endpoints, estados de tela e testes estão em [docs/FRONTEND_INTEGRATION.md](docs/FRONTEND_INTEGRATION.md).

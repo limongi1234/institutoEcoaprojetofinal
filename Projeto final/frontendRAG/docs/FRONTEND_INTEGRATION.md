@@ -1,6 +1,6 @@
 # Integração do frontend NEXO com o backend
 
-O contrato oficial está em `docs/FRONTEND_API_CONTRACT.md` no repositório do backend. O frontend consome somente a API real: não há mocks, dados de catálogo locais nem chave administrativa no JavaScript.
+O contrato oficial está em [FRONTEND_API_CONTRACT.md](../../rag-grande-desafio-grupo04-cenario01/docs/FRONTEND_API_CONTRACT.md), na pasta do backend. O frontend consome somente a API real: não há mocks, dados de catálogo locais nem chave administrativa no JavaScript.
 
 ## Configuração
 

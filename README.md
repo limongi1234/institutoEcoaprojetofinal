@@ -176,6 +176,15 @@ endpoint compartilhado da turma, portanto é preciso internet.
 
 Use **dois terminais**: um para o backend e outro para o frontend.
 
+### 0. Clonar o repositório
+
+```bash
+git clone https://github.com/limongi1234/institutoEcoaprojetofinal.git
+cd institutoEcoaprojetofinal
+```
+
+Os comandos a seguir partem da raiz do repositório.
+
 ### 1. Backend (terminal 1)
 
 ```powershell
@@ -231,6 +240,10 @@ baixado e carregado. Faça uma pergunta de aquecimento antes de qualquer
 apresentação.
 
 ### Comandos úteis
+
+Os comandos do backend rodam na pasta do backend, com o `.venv` ativado
+(`.venv\Scripts\Activate.ps1` no Windows, `source .venv/bin/activate` no
+Linux/macOS).
 
 | Onde | Comando | O que faz |
 | --- | --- | --- |
