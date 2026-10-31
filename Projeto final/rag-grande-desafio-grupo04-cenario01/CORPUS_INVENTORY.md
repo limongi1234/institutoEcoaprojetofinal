@@ -2,7 +2,7 @@
 
 ## Snapshot: `v7-qwen-q8-2026-10-26`
 
-[Baixar o pacote V7 no Google Drive](https://drive.google.com/file/d/1Zgt4b57sXZeGI0M6qz61ePk5h5SWh0vx/view?usp=drive_link).
+[Baixar o pacote V7 no Google Drive](https://drive.google.com/drive/folders/14K1K-q9kze5qivG__b0KvkJV4L7buc1r?usp=drive_link) (ZIP com FTS e `.sha256`).
 
 - Snapshot: `v7-qwen-q8-2026-10-26`
 - Versão SQL/corpus: `v7-reparo` (schema `7`).

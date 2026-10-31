@@ -33,9 +33,9 @@ Subir só o frontend não inicia o RAG.
 | Backend / RAG | [Diogooliveira10/rag-grande-desafio-grupo04-cenario01](https://github.com/Diogooliveira10/rag-grande-desafio-grupo04-cenario01) | `Projeto final/rag-grande-desafio-grupo04-cenario01/` |
 | Frontend | [Etuarda/frontendRAG](https://github.com/Etuarda/frontendRAG) | `Projeto final/frontendRAG/` |
 
-O código de cada pasta é uma cópia do repositório da equipe. Os READMEs internos
-foram escritos para os repositórios separados. Por isso, quando eles mandam
-clonar o outro repositório, aqui basta entrar na outra pasta.
+O código de cada pasta é uma cópia do repositório da equipe. Os guias de execução
+das duas pastas foram ajustados para este repositório: em vez de clonar o outro
+projeto, basta entrar na pasta ao lado.
 
 ---
 

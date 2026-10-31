@@ -2,21 +2,20 @@
 
 Interface React do NEXO RJ, consulta inteligente sobre contratações públicas do Estado do Rio de Janeiro. Projeto da Residência em IA & RAG (Instituto ECOA · PUC-Rio).
 
-O frontend consome **exclusivamente** o backend FastAPI do Grande Desafio. Não há respostas simuladas nem catálogo de exemplo: com o backend desligado, a interface mostra erro de conexão. **Clonar só o frontend não inicia o RAG**; são dois repositórios e dois serviços.
+O frontend consome **exclusivamente** o backend FastAPI do Grande Desafio. Não há respostas simuladas nem catálogo de exemplo: com o backend desligado, a interface mostra erro de conexão. **Subir só o frontend não inicia o RAG**: são dois serviços. Neste repositório, o backend fica na pasta ao lado, [`../rag-grande-desafio-grupo04-cenario01/`](../rag-grande-desafio-grupo04-cenario01/).
 
-## Clonar e fazer perguntas
+## Instalar e fazer perguntas
 
-Use esta fork, na branch **`main`**:
+A partir da raiz do repositório:
 
 ```bash
-git clone --branch main https://github.com/sevenRevy/frontendRAG.git
-cd frontendRAG
+cd "Projeto final/frontendRAG"
 npm ci
 ```
 
 Pré-requisitos: Git, **Node.js LTS 22+** e **Python 3.14 de 64 bits** para o backend. A geração e os embeddings padrão dependem da internet e do endpoint compartilhado da turma.
 
-1. Siga [docs/GUIA_EXECUCAO_LOCAL.md](docs/GUIA_EXECUCAO_LOCAL.md) para clonar o **backend na branch `joao-reis`**, instalar as dependências e iniciar a API em `http://localhost:8080`. O Git não inclui os arquivos grandes do corpus: instale o pacote de dados distribuído separadamente antes de iniciar a API; clonar o código não instala SQLite, documentos ou índices.
+1. Siga [docs/GUIA_EXECUCAO_LOCAL.md](docs/GUIA_EXECUCAO_LOCAL.md) para instalar o backend, que fica na pasta ao lado, e iniciar a API em `http://localhost:8080`. O Git não inclui os arquivos grandes do corpus: instale o pacote de dados distribuído separadamente antes de iniciar a API; o código não traz SQLite, documentos nem índices.
 2. Na pasta deste frontend, com o backend rodando:
 
    ```bash
@@ -27,7 +26,7 @@ Pré-requisitos: Git, **Node.js LTS 22+** e **Python 3.14 de 64 bits** para o ba
 
 3. Na tela **Consulta**, envie, por exemplo: **“O que estabelece a Lei 14.133/2021?”**. A resposta deve mostrar fontes. Verifique também Contratações, Histórico e feedback.
 
-Baixe o [pacote de dados V7](https://drive.google.com/file/d/1Zgt4b57sXZeGI0M6qz61ePk5h5SWh0vx/view?usp=drive_link), extraia na raiz do backend e configure `SNAPSHOT_MANIFEST=runtime_bundle.json` no `.env`. Após iniciar a API, confira `/ready`. A interface exibe os dados do backend conectado.
+Baixe o ZIP do pacote de dados V7 e o seu `.sha256` na [pasta do Google Drive](https://drive.google.com/drive/folders/14K1K-q9kze5qivG__b0KvkJV4L7buc1r?usp=drive_link), extraia na raiz do backend e configure `SNAPSHOT_MANIFEST=runtime_bundle.json` no `.env`. Após iniciar a API, confira `/ready`. A interface exibe os dados do backend conectado.
 
 `npm run dev` e os diagnósticos usam `.env.development`, já versionado com `VITE_API_BASE_URL=http://localhost:8080`. Para outra URL, crie `.env.development.local` e reinicie o Vite. Nunca coloque senhas ou tokens nas variáveis `VITE_*`: elas são públicas no navegador.
 

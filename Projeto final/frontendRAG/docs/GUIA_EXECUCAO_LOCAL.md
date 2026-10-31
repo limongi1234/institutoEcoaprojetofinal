@@ -1,15 +1,15 @@
 # Rodar o NEXO RJ após um clone
 
-Este guia prepara **dois repositórios** e conecta a interface ao RAG real. Os dados
-pesados do corpus não estão no Git: além do código, é necessário instalar um pacote
-de dados distribuído separadamente.
+Este guia prepara os **dois serviços** do repositório e conecta a interface ao RAG
+real. Os dados pesados do corpus não estão no Git: além do código, é necessário
+instalar um pacote de dados distribuído separadamente.
 
-| Serviço | Repositório/branch | Endereço local |
+| Serviço | Pasta no repositório | Endereço local |
 | --- | --- | --- |
-| Backend | `Diogooliveira10/rag-grande-desafio-grupo04-cenario01`, **`joao-reis`** | `http://localhost:8080` |
-| Frontend (esta fork) | `sevenRevy/frontendRAG`, **`main`** | `http://localhost:5173` |
+| Backend | `Projeto final/rag-grande-desafio-grupo04-cenario01/` | `http://localhost:8080` |
+| Frontend | `Projeto final/frontendRAG/` | `http://localhost:5173` |
 
-Use dois terminais: um fica executando a API, outro o Vite. Clonar apenas o frontend
+Use dois terminais: um fica executando a API, outro o Vite. Subir apenas o frontend
 não instala nem inicia o backend. O GitHub Pages também não executa o backend.
 
 ## 1. Pré-requisitos
@@ -28,21 +28,20 @@ Confira `git --version`, `node --version` e `npm --version`. No Windows, confira
 
 Se o PowerShell bloquear `npm.ps1`, use `npm.cmd` no lugar de `npm`.
 
-## 2. Clonar o backend na branch correta
+## 2. Clonar o repositório e baixar os dados
 
 Em uma pasta de sua escolha, execute:
 
 ```bash
-git clone --branch joao-reis --single-branch https://github.com/Diogooliveira10/rag-grande-desafio-grupo04-cenario01.git
-cd rag-grande-desafio-grupo04-cenario01
+git clone https://github.com/limongi1234/institutoEcoaprojetofinal.git
+cd "institutoEcoaprojetofinal/Projeto final/rag-grande-desafio-grupo04-cenario01"
 ```
 
-Baixe o [pacote de dados V7](https://drive.google.com/file/d/1Zgt4b57sXZeGI0M6qz61ePk5h5SWh0vx/view?usp=drive_link)
-e extraia **na raiz do backend**. O ZIP inclui documentos normalizados, SQLite,
-catálogo, índices FAISS e `runtime_bundle.json`, nos caminhos usados pela API.
-O clone fornece apenas o código.
-
-Não use uma branch diferente sem conferir a compatibilidade da API e dos dados.
+Baixe o ZIP do pacote de dados V7 e o seu `.sha256` na
+[pasta do Google Drive](https://drive.google.com/drive/folders/14K1K-q9kze5qivG__b0KvkJV4L7buc1r?usp=drive_link)
+e extraia **na raiz do backend** (a pasta acima). O ZIP inclui documentos
+normalizados, SQLite, catálogo, índices FAISS e `runtime_bundle.json`, nos
+caminhos usados pela API. O clone fornece apenas o código.
 
 ## 3. Instalar o backend
 
@@ -121,18 +120,14 @@ Deixe rodando. Abra <http://localhost:8080/health>: deve retornar
 bundle instalado. A documentação interativa fica em <http://localhost:8080/docs>.
 **Saúde online não garante que o LLM esteja disponível.**
 
-## 6. Clonar esta fork — terminal 2
+## 6. Instalar o frontend — terminal 2
 
-Na pasta onde deseja manter o frontend (fora da pasta do backend):
+O frontend fica na pasta ao lado do backend. A partir da raiz do backend:
 
 ```bash
-git clone --branch main https://github.com/sevenRevy/frontendRAG.git
-cd frontendRAG
+cd ../frontendRAG
 npm ci
 ```
-
-Se já clonou esta fork, não clone novamente; use sua pasta existente. Não confunda
-com o repositório original `Etuarda/frontendRAG` nem com uma branch antiga.
 
 ## 7. Diagnosticar antes de abrir a interface
 
@@ -222,7 +217,7 @@ o endpoint ECOA e não colocam dados simulados no build de produção.
 | Sintoma | O que conferir |
 | --- | --- |
 | Backend offline / `fetch failed` | API iniciada? Porta 8080? `.env.development.local` correto? |
-| `/health` passa, mas catálogo falha | SQLite presente, branch `joao-reis`, `DATABASE_URL=` vazio. |
+| `/health` passa, mas catálogo falha | SQLite presente (pacote V7 extraído na raiz do backend) e `DATABASE_URL=` vazio. |
 | Toda pergunta retorna erro 500 | Dependências instaladas no mesmo Python usado pelo `uvicorn`; veja o traceback no terminal 1. |
 | `No module named faiss` | Instale `requirements.txt` na `.venv`; não use o Python global para iniciar a API. |
 | Timeout na primeira pergunta | Download do reranker ou endpoint lento; aguarde ou teste com `RERANK_ENABLED=false` e reinicie a API. |

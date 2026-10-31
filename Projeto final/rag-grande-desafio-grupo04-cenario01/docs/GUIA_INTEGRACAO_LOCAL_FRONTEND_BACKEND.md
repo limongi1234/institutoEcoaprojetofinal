@@ -8,7 +8,7 @@ React/Vite — http://localhost:5173
               ↓ HTTP + JSON
 FastAPI    — http://localhost:8080
               ↓
-pipeline RAG + corpus v6 + PostgreSQL ou SQLite + histórico + feedback
+pipeline RAG + corpus v7 + PostgreSQL ou SQLite + histórico + feedback
 ```
 
 Execute as etapas na ordem apresentada.
@@ -20,8 +20,8 @@ Instale:
 - Git;
 - Python 3.14 de 64 bits;
 - Node.js LTS com npm;
-- PostgreSQL, apenas se quiser usar o banco local em vez do SQLite incluído no
-  repositório.
+- PostgreSQL, apenas se quiser usar o banco local em vez do SQLite do pacote de
+  dados V7.
 
 Confirme no PowerShell:
 
@@ -35,37 +35,37 @@ npm.cmd --version
 Python 3.14 é recomendado pela compatibilidade com FAISS, PyTorch e
 `sentence-transformers`.
 
-## 2. Criar uma pasta para os projetos
+## 2. Clonar o repositório
 
 ```powershell
-New-Item -ItemType Directory -Force C:\projetos\nexo
-Set-Location C:\projetos\nexo
+New-Item -ItemType Directory -Force C:\projetos
+Set-Location C:\projetos
+git clone https://github.com/limongi1234/institutoEcoaprojetofinal.git
 ```
 
-Os repositórios ficarão lado a lado:
+Os dois projetos ficam lado a lado, dentro de `Projeto final`:
 
 ```text
-C:\projetos\nexo\
-├── rag-grande-desafio-grupo04-cenario01\
-└── frontendRAG\
+C:\projetos\institutoEcoaprojetofinal\
+└── Projeto final\
+    ├── rag-grande-desafio-grupo04-cenario01\   ← backend
+    └── frontendRAG\                            ← frontend
 ```
 
-## 3. Clonar o backend
+Entre na pasta do backend:
 
 ```powershell
-git clone https://github.com/Diogooliveira10/rag-grande-desafio-grupo04-cenario01.git
-Set-Location .\rag-grande-desafio-grupo04-cenario01
-git switch main
-git pull --ff-only origin main
+Set-Location "C:\projetos\institutoEcoaprojetofinal\Projeto final\rag-grande-desafio-grupo04-cenario01"
 ```
 
-Confirme:
+## 3. Baixar o pacote de dados V7
 
-```powershell
-git status --short --branch
-```
-
-O resultado deve indicar `main` sincronizada e sem alterações.
+Os arquivos grandes do corpus (documentos normalizados, SQLite, catálogo e
+índices FAISS, 5,3 GB) não estão no Git. Baixe o ZIP e o seu `.sha256` na
+[pasta do Google Drive](https://drive.google.com/drive/folders/14K1K-q9kze5qivG__b0KvkJV4L7buc1r?usp=drive_link)
+e extraia o ZIP **na raiz do backend** (a pasta acima). Os arquivos já vêm nos
+caminhos usados pela API, como `data/structured/base_estruturada.sqlite` e
+`index/`.
 
 ## 4. Criar o ambiente Python do backend
 
@@ -104,7 +104,12 @@ RERANK_ENABLED=true
 RERANK_MODEL=cross-encoder/mmarco-mMiniLMv2-L12-H384-v1
 RERANK_CANDIDATES=10
 RERANK_MAX_LENGTH=512
+
+SNAPSHOT_MANIFEST=runtime_bundle.json
 ```
+
+`SNAPSHOT_MANIFEST` aponta para o manifesto do pacote V7; com ele, o `/ready`
+confere os arquivos extraídos.
 
 O backend já aceita o frontend local (`http://localhost:5173` e
 `http://127.0.0.1:5173`) sem configurar nada: `CORS_ALLOW_ORIGINS` só acrescenta
@@ -193,7 +198,7 @@ python -m src.structured_db fts
 Abra um PowerShell na pasta do backend:
 
 ```powershell
-Set-Location C:\projetos\nexo\rag-grande-desafio-grupo04-cenario01
+Set-Location "C:\projetos\institutoEcoaprojetofinal\Projeto final\rag-grande-desafio-grupo04-cenario01"
 .\.venv\Scripts\Activate.ps1
 python -m uvicorn app.api:app --reload --host 127.0.0.1 --port 8080
 ```
@@ -223,33 +228,28 @@ Se `/health` funcionar, mas contratações retornarem erro 500, confira
 `DATABASE_URL`. Esse comportamento normalmente significa que o PostgreSQL está
 inacessível, sem a tabela carregada ou com usuário/senha incorretos.
 
-## 8. Clonar o frontend
+## 8. Instalar o frontend
 
-O frontend é mantido em um repositório separado:
-
-<https://github.com/Etuarda/frontendRAG>
-
-Para testar a integração local, é necessário clonar esse repositório e executar
-o Vite no computador. O site publicado no GitHub Pages não substitui essa etapa,
-pois este guia conecta o React local ao FastAPI local.
+O frontend fica na pasta ao lado do backend, no mesmo repositório. Para testar a
+integração local, execute o Vite no computador. O site publicado no GitHub Pages
+não substitui essa etapa, pois este guia conecta o React local ao FastAPI local.
 
 Abra outro PowerShell e execute:
 
 ```powershell
-Set-Location C:\projetos\nexo
-git clone https://github.com/Etuarda/frontendRAG.git
-Set-Location .\frontendRAG
-npm.cmd install
+Set-Location "C:\projetos\institutoEcoaprojetofinal\Projeto final\frontendRAG"
+npm.cmd ci
 ```
 
-Depois do clone, consulte também o `README.md` e o guia de integração existentes
-no próprio repositório do frontend. Eles descrevem a estrutura e os comandos
-específicos da interface; em caso de divergência, mantenha neste teste a URL do
-backend definida neste documento: `http://localhost:8080`.
+Consulte também o [README.md](../../frontendRAG/README.md) e o
+[guia de execução local](../../frontendRAG/docs/GUIA_EXECUCAO_LOCAL.md) do
+frontend. Eles descrevem a estrutura e os comandos específicos da interface; em
+caso de divergência, mantenha neste teste a URL do backend definida neste
+documento: `http://localhost:8080`.
 
 ## 9. Configurar a conexão do frontend
 
-Crie `.env.development` na raiz do frontend:
+O `.env.development` já vem versionado na raiz do frontend com:
 
 ```env
 VITE_API_BASE_URL=http://localhost:8080
@@ -295,7 +295,7 @@ Depois da primeira instalação, use sempre esta ordem:
 Backend:
 
 ```powershell
-Set-Location C:\projetos\nexo\rag-grande-desafio-grupo04-cenario01
+Set-Location "C:\projetos\institutoEcoaprojetofinal\Projeto final\rag-grande-desafio-grupo04-cenario01"
 .\.venv\Scripts\Activate.ps1
 python -m uvicorn app.api:app --reload --host 127.0.0.1 --port 8080
 ```
@@ -303,7 +303,7 @@ python -m uvicorn app.api:app --reload --host 127.0.0.1 --port 8080
 Frontend, em outro terminal:
 
 ```powershell
-Set-Location C:\projetos\nexo\frontendRAG
+Set-Location "C:\projetos\institutoEcoaprojetofinal\Projeto final\frontendRAG"
 npm.cmd run dev -- --port 5173
 ```
 
@@ -373,7 +373,7 @@ Invoke-RestMethod "http://localhost:8080/api/v1/explore/contratacoes?limit=2"
 ```
 
 - Se usar PostgreSQL, confira serviço, usuário, senha, banco e tabelas.
-- Para usar o SQLite incluído, deixe `DATABASE_URL=` vazio e reinicie o backend.
+- Para usar o SQLite do pacote V7, deixe `DATABASE_URL=` vazio e reinicie o backend.
 
 ### Frontend continua tentando a porta 8000
 
